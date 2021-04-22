@@ -23,9 +23,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  arkit_plugin: ^0.6.2
+  arkit_plugin:
+    git: git://github.com/olexale/arkit_flutter_plugin.git
   vector_math: ^2.1.0
-
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:arkit_plugin/arkit_plugin.dart';
-import 'package:vector_math/vector_math.dart';
+import 'package:vector_math/vector_math_64.dart' as vector;
 
 class AR extends StatefulWidget {
   @override
@@ -20,11 +21,10 @@ class _AR extends State<AR> {
   }
 
   void onARKitViewCreated(ARKitController arkitController) {
-    this.arkitController = arkitController;
 
     final material = ARKitMaterial(
       lightingModelName: ARKitLightingModel.lambert,
-      diffuse: ARKitMaterialProperty(image: 'earth.jpg'),
+      diffuse: ARKitMaterialProperty(image: 'https://upload.wikimedia.org/wikipedia/commons/9/97/The_Earth_seen_from_Apollo_17.jpg'),
     );
     final sphere = ARKitSphere(
       materials: [material],
@@ -33,10 +33,10 @@ class _AR extends State<AR> {
 
     final node = ARKitNode(
       geometry: sphere,
-      position: Vector3(0, 0, -0.5),
-      eulerAngles: Vector3.zero(),
+      position: vector.Vector3(0, 0, -0.5),
+      eulerAngles: vector.Vector3.zero(),
     );
-    this.arkitController.add(node);
+    arkitController.add(node);
 
     timer = Timer.periodic(const Duration(milliseconds: 50), (timer) {
       final rotation = node.eulerAngles;
@@ -49,6 +49,12 @@ class _AR extends State<AR> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(title: const Text('ARKit in Flutter')),
-        body: ARKitSceneView(onARKitViewCreated: onARKitViewCreated));
+        body: Container(
+          child: ARKitSceneView(
+          enableTapRecognizer: true,
+          onARKitViewCreated: onARKitViewCreated,
+          ),
+        ),
+    );
   }
 }
